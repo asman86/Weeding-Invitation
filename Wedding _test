@@ -1,0 +1,994 @@
+html
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Diraja</title>
+    <!-- Google Fonts untuk Tipografi yang Mewah -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk Ikon Sosial & RSVP -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VANILA --- */
+        :root {
+            --primary: #c5a880; /* Champagne Gold */
+            --primary-dark: #a3845b;
+            --secondary: #e6dfd3;
+            --dark: #2c261e;
+            --light: #fdfbf7;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(44, 38, 30, 0.08);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        .cursive {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: var(--primary-dark);
+            line-height: 1.2;
+            text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+        }
+
+        /* Pembuka Tirai / Splash Screen */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #fdfbf7 0%, #f4eee1 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, transform 1s ease;
+            padding: 20px;
+        }
+
+        #splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .splash-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 50% 50% 0 0;
+            border: 2px solid var(--primary);
+            box-shadow: var(--shadow);
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Hiasan Bucu (Border Corner) */
+        .corner-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--primary);
+            pointer-events: none;
+        }
+        .top-left { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+        .top-right { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+
+        .btn-open {
+            margin-top: 30px;
+            padding: 12px 35px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4);
+            transition: var(--transition);
+        }
+
+        .btn-open:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(197, 168, 128, 0.6);
+        }
+
+        /* Pemain Audio */
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--white);
+            border: 2px solid var(--primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: var(--transition);
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control i {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+        }
+
+        .music-control.playing i {
+            animation: rotateMusic 4s linear infinite;
+        }
+
+        @keyframes rotateMusic {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hiasan Floral SVG */
+        .floral-header {
+            width: 150px;
+            margin: 20px auto;
+            opacity: 0.8;
+        }
+
+        /* Bahagian Utama (Main Sections) */
+        section {
+            padding: 100px 20px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Latar belakang lembut dengan corak hiasan */
+        .bg-pattern {
+            background-image: radial-gradient(var(--secondary) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-color: var(--light);
+        }
+
+        .bg-white {
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Kesan Tatalan (Scroll Animations) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+
+        .fade-in-up.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. Hero Section */
+        #hero {
+            background: linear-gradient(rgba(253, 251, 247, 0.9), rgba(253, 251, 247, 0.95)),
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .hero-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .couple-names {
+            margin: 25px 0;
+        }
+
+        .couple-names span {
+            display: block;
+            font-size: 3.5rem;
+        }
+
+        .hero-date {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+            padding: 10px 0;
+            display: inline-block;
+            margin-top: 20px;
+            letter-spacing: 3px;
+        }
+
+        /* 2. Mukaddimah Section */
+        #muqaddimah {
+            background: var(--white);
+            border-bottom: 1px solid var(--secondary);
+        }
+
+        .bismillah {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-family: 'Cinzel', serif;
+            color: var(--primary-dark);
+        }
+
+        .salutation {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .parents-names {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin: 20px 0;
+        }
+
+        /* 3. Pengantin Section */
+        #pengantin {
+            background-color: var(--light);
+        }
+
+        .bride-groom-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px 25px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .bride-groom-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ampersand {
+            font-size: 3rem;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        /* 4. Butiran Majlis */
+        #butiran {
+            background-color: var(--white);
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .event-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--secondary);
+            text-align: left;
+            box-shadow: var(--shadow);
+        }
+
+        .event-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .info-item i {
+            color: var(--primary-dark);
+            margin-right: 15px;
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Atur Cara Senarai */
+        .timeline {
+            list-style: none;
+            padding-left: 20px;
+            border-left: 2px solid var(--primary);
+            margin-top: 15px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -17px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-dark);
+            border-radius: 50%;
+        }
+
+        /* 5. Countdown Section */
+        #countdown-sec {
+            background: linear-gradient(rgba(44, 38, 30, 0.85), rgba(44, 38, 30, 0.9)),
+                        url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+        }
+
+        #countdown-sec h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 15px 25px;
+            min-width: 90px;
+            backdrop-filter: blur(5px);
+        }
+
+        .time-box span {
+            font-size: 2.2rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            display: block;
+            color: var(--primary);
+        }
+
+        .time-box label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 6. Quran Verse & Quote Section */
+        #doa {
+            background-color: var(--white);
+            font-style: italic;
+        }
+
+        .prayer-text {
+            font-size: 1.1rem;
+            line-height: 2;
+            max-width: 650px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        .quote-signature {
+            margin-top: 30px;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* 7. RSVP & Lokasi Section */
+        #rsvp-lokasi {
+            background-color: var(--light);
+        }
+
+        .rsvp-form-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--secondary);
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(197, 168, 128, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--dark);
+        }
+
+        /* Butang Lokasi & Hubungi */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background-color: var(--white);
+            color: var(--dark);
+            border: 1px solid var(--primary);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-action:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn-action.primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-action.primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Notifikasi Tersuai (Custom Toast Notification) */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 10000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 40px 20px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsif untuk Skrin Kecil */
+        @media (max-width: 480px) {
+            .cursive { font-size: 2.3rem; }
+            .couple-names span { font-size: 2.5rem; }
+            section { padding: 70px 15px; }
+            .timer-container { gap: 10px; }
+            .time-box { min-width: 70px; padding: 10px; }
+            .time-box span { font-size: 1.6rem; }
+            .rsvp-form-container { padding: 25px 15px; }
+            .btn-action { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PEMBUKA TIRAI (SPLASH SCREEN) -->
+    <div id="splash">
+        <div class="splash-card">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            
+            <p class="hero-title" style="margin-bottom: 10px;">Walimatulurus</p>
+            <h1 class="cursive" style="font-size: 2.5rem;">Afiqah & Haziq</h1>
+            <p style="margin-top: 15px; font-size: 0.85rem; letter-spacing: 1px; color: #777;">SABTU, 12 SEPTEMBER 2026</p>
+            
+            <button class="btn-open" onclick="bukaUndangan()">
+                <i class="fa-solid rel fa-envelope-open" style="margin-right: 8px;"></i> Buka Undangan
+            </button>
+        </div>
+    </div>
+
+    <!-- BUTANG KAWALAN MUZIK (BACKING AUDIO) -->
+    <div class="music-control" id="musicBtn" onclick="toggleMuzik()">
+        <i class="fa-solid fa-music"></i>
+    </div>
+    
+    <!-- Audio Fail (Menggunakan Lagu Instrumental yang Bebas Royalti / Lembut) -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="bg-pattern">
+        <div class="container fade-in-up">
+            <!-- Hiasan Atas -->
+            <svg class="floral-header" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <path d="M50 10 C 35 30, 20 40, 50 90 C 80 40, 65 30, 50 10 Z" stroke-width="1.5" stroke="#c5a880"/>
+                <path d="M50 30 C 40 45, 35 50, 50 75 C 65 50, 60 45, 50 30 Z" stroke-width="1" stroke="#a3845b"/>
+            </svg>
+            <p class="hero-title">Undangan Perkahwinan</p>
+            <div class="couple-names">
+                <span class="cursive">Afiqah Puteri</span>
+                <div class="ampersand">&amp;</div>
+                <span class="cursive">Haziq Putra</span>
+            </div>
+            <p class="hero-date">SABTU | 12 SEPTEMBER 2026</p>
+        </div>
+    </section>
+
+    <!-- 2. MUQADDIMAH & JEMPUTAN -->
+    <section id="muqaddimah">
+        <div class="container fade-in-up">
+            <p class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْم</p>
+            <p class="salutation">Assalamualaikum Warahmatullahi Wabarakatuh</p>
+            
+            <p style="margin-bottom: 25px;">Dengan penuh kesyukuran ke hadrat Allah SWT serta memohon keberkatan-Nya, kami:</p>
+            
+            <p class="parents-names">Encik Ahmad bin Sulaiman & Puan Aminah binti Yusuf</p>
+            
+            <p style="margin: 25px auto; max-width: 600px;">
+                dengan segala hormatnya menjemput Dato' / Datin / Tuan / Puan / Encik / Cik serta seisi keluarga ke majlis perkahwinan anakanda kami:
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. PENGANTIN SECTION -->
+    <section id="pengantin">
+        <div class="container fade-in-up">
+            <svg class="floral-header" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="30" stroke="#c5a880" stroke-width="1"/>
+                <path d="M50 10 Q 50 40 30 50 Q 50 60 50 90" stroke="#a3845b" stroke-width="1.5"/>
+            </svg>
+            
+            <div class="bride-groom-card">
+                <h2 class="cursive">Nur Afiqah Binti Ahmad</h2>
+                <p style="font-size: 0.85rem; letter-spacing: 1px; color: #777; margin-top: 10px;">
+                    Puteri kepada Encik Ahmad bin Sulaiman & Puan Aminah binti Yusuf
+                </p>
+            </div>
+
+            <div class="ampersand">dengan</div>
+
+            <div class="bride-groom-card">
+                <h2 class="cursive">Mohamad Haziq Bin Ramli</h2>
+                <p style="font-size: 0.85rem; letter-spacing: 1px; color: #777; margin-top: 10px;">
+                    Putera kepada Encik Ramli bin Kassim & Puan Rosnah binti Osman
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. BUTIRAN MAJLIS & ATUR CARA -->
+    <section id="butiran">
+        <div class="container fade-in-up">
+            <h2 style="color: var(--primary-dark); font-weight: 600;">Butiran Majlis</h2>
+            <p style="color: #666; margin-bottom: 20px;">Segala maklumat penting berkaitan majlis perkahwinan kami.</p>
+
+            <div class="event-grid">
+                <!-- Kad Lokasi & Tarikh -->
+                <div class="event-card">
+                    <h3>Tarikh & Tempat</h3>
+                    <div class="info-item" style="margin-top: 15px;">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div>
+                            <strong>Hari & Tarikh</strong>
+                            <p>Sabtu, 12 September 2026</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <div>
+                            <strong>Waktu Majlis</strong>
+                            <p>11:00 Pagi - 4:00 Petang</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>Lokasi</strong>
+                            <p>Dewan Banquet Seri Anggerik, Jalan Permaisuri 5, Bukit Antarabangsa, 68000 Ampang, Selangor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kad Atur Cara -->
+                <div class="event-card">
+                    <h3>Atur Cara Majlis</h3>
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <strong>11:00 Pagi</strong>
+                            <p>Ketibaan para tetamu & jamuan makan bermula</p>
+                        </li>
+                        <li class="timeline-item">
+                            <strong>12:45 Tengah Hari</strong>
+                            <p>Ketibaan Pengantin Diraja (Acara Bersanding)</p>
+                        </li>
+                        <li class="timeline-item">
+                            <strong>1:15 Tengah Hari</strong>
+                            <p>Makan Beradab & Memotong Kek Perkahwinan</p>
+                        </li>
+                        <li class="timeline-item">
+                            <strong>4:00 Petang</strong>
+                            <p>Majlis Bersurai</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COUNTDOWN TIMER -->
+    <section id="countdown-sec">
+        <div class="container fade-in-up">
+            <h2>Menanti Hari Bahagia</h2>
+            <p style="margin-bottom: 20px;">Kami sedang mengira hari untuk disatukan:</p>
+            <div class="timer-container">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <label>Hari</label>
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <label>Jam</label>
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <label>Minit</label>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <label>Saat</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PRAYER & QUOTE -->
+    <section id="doa" class="bg-pattern">
+        <div class="container fade-in-up">
+            <p class="prayer-text">
+                "Ya Allah, himpunkanlah antara kedua-duanya dengan kebaikan, satukanlah hati mereka dalam ketaatan kepada-Mu dan kurniakanlah kebahagiaan serta keberkatan dalam kehidupan mereka."
+            </p>
+            <div class="quote-signature">
+                "Raja Sehari, Seikhlas Hati Menyambut Tetamu"
+            </div>
+            <p style="margin-top: 30px; font-size: 0.95rem; color: #555;">
+                Kehadiran dan doa restu Tuan / Puan amat kami hargai dan dahului dengan ucapan terima kasih.
+            </p>
+        </div>
+    </section>
+
+    <!-- 7. RSVP, HUBUNGI & LOKASI -->
+    <section id="rsvp-lokasi">
+        <div class="container fade-in-up">
+            <h2 style="color: var(--primary-dark); margin-bottom: 10px;">RSVP & Hubungi</h2>
+            <p style="color: #666; margin-bottom: 30px;">Sila maklumkan kehadiran anda sebelum <b>31 Ogos 2026</b> untuk memudahkan pihak kami membuat persiapan.</p>
+
+            <div class="rsvp-form-container">
+                <form id="rsvpForm" onsubmit="hantarRSVP(event)">
+                    <div class="form-group">
+                        <label for="nama">Nama Penuh</label>
+                        <input type="text" id="nama" class="form-control" placeholder="Sila masukkan nama anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kehadiran">Kehadiran</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="kehadiran" value="hadir" required checked> Sedia Hadir
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="kehadiran" value="tidak_hadir"> Tidak Dapat Hadir
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="bilangan-container">
+                        <label for="bilangan">Bilangan Tetamu (Termasuk Anda)</label>
+                        <select id="bilangan" class="form-control">
+                            <option value="1">1 Orang</option>
+                            <option value="2">2 Orang</option>
+                            <option value="3">3 Orang</option>
+                            <option value="4">4 Orang</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Hantar RSVP</button>
+                </form>
+            </div>
+
+            <!-- Butang Lokasi Google Maps & Waze -->
+            <h3 style="color: var(--primary-dark); margin-top: 40px; margin-bottom: 15px;">Navigasi Lokasi</h3>
+            <div class="action-buttons">
+                <a href="https://maps.google.com/?q=Dewan+Banquet+Seri+Anggerik" target="_blank" class="btn-action primary">
+                    <i class="fa-solid fa-map-location-dot"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul" target="_blank" class="btn-action">
+                    <i class="fa-brands fa-waze" style="color: #33ccff;"></i> Waze
+                </a>
+            </div>
+
+            <!-- Hubungi Melalui WhatsApp -->
+            <h3 style="color: var(--primary-dark); margin-top: 40px; margin-bottom: 15px;">Hubungi Ahli Keluarga</h3>
+            <div class="action-buttons">
+                <a href="https://wa.me/60123456789?text=Hai,%20saya%20ingin%20bertanya%20mengenai%20majlis%20perkahwinan..." target="_blank" class="btn-action">
+                    <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> WhatsApp Bapa (En. Ahmad)
+                </a>
+                <a href="https://wa.me/60198765432?text=Hai,%20saya%20ingin%20bertanya%20mengenai%20majlis%20perkahwinan..." target="_blank" class="btn-action">
+                    <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> WhatsApp Ibu (Puan Aminah)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTIFIKASI TOAST -->
+    <div id="toast">RSVP Anda Telah Diterima! Terima Kasih.</div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>"Makan Beradab, Majlis Berkat"</p>
+        <p style="margin-top: 10px;">Rekaan Kad Kahwin Digital &copy; 2026. Hak Cipta Terpelihara.</p>
+    </footer>
+
+    <!-- --- JAVASCRIPT --- -->
+    <script>
+        // Tarikh Majlis Perkahwinan (Sabtu, 12 Sep 2026 11:00:00)
+        const tarikhMajlis = new Date("Sep 12, 2026 11:00:00").getTime();
+
+        // 1. Fungsi Countdown Timer
+        const countdownInterval = setInterval(function() {
+            const sekarang = new Date().getTime();
+            const jarak = tarikhMajlis - sekarang;
+
+            // Kiraan masa untuk Hari, Jam, Minit dan Saat
+            const hari = Math.floor(jarak / (1000 * 60 * 60 * 24));
+            const jam = Math.floor((jarak % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minit = Math.floor((jarak % (1000 * 60 * 60)) / (1000 * 60));
+            const saat = Math.floor((jarak % (1000 * 60)) / 1000);
+
+            // Paparkan hasil dalam elemen masing-masing
+            document.getElementById("days").innerText = hari < 10 ? "0" + hari : hari;
+            document.getElementById("hours").innerText = jam < 10 ? "0" + jam : jam;
+            document.getElementById("minutes").innerText = minit < 10 ? "0" + minit : minit;
+            document.getElementById("seconds").innerText = saat < 10 ? "0" + saat : saat;
+
+            // Jika countdown telah tamat
+            if (jarak < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+            }
+        }, 1000);
+
+        // 2. Fungsi Pembuka Undangan & Auto Play Muzik
+        const splash = document.getElementById("splash");
+        const bgMusic = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicBtn");
+
+        function bukaUndangan() {
+            splash.classList.add("fade-out");
+            // Mainkan muzik latar belakang sejurus kad dibuka
+            bgMusic.play().then(() => {
+                musicBtn.classList.add("playing");
+            }).catch(error => {
+                console.log("Auto-play disekat oleh pelayar. Pengguna perlu klik mainkan secara manual.");
+            });
+            // Mulakan trigger penglihatan tatalan
+            triggerScrollAnimations();
+        }
+
+        // 3. Fungsi Hidupkan / Matikan Muzik
+        function toggleMuzik() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicBtn.classList.add("playing");
+                showToast("Muzik Latar Bermula 🎵");
+            } else {
+                bgMusic.pause();
+                musicBtn.classList.remove("playing");
+                showToast("Muzik Dijeda 🔇");
+            }
+        }
+
+        // 4. Kesan Tatalan (Scroll Animation API)
+        const animatedElements = document.querySelectorAll('.fade-in-up');
+
+        function triggerScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('appear');
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // 5. Menyembunyikan Pilihan Bilangan Tetamu Sekiranya "Tidak Hadir" Dipilih
+        const kehadiranRadios = document.querySelectorAll('input[name="kehadiran"]');
+        const bilanganContainer = document.getElementById('bilangan-container');
+
+        kehadiranRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'tidak_hadir') {
+                    bilanganContainer.style.display = 'none';
+                } else {
+                    bilanganContainer.style.display = 'block';
+                }
+            });
+        });
+
+        // 6. Fungsi Hantar RSVP Terus Ke Konsol / Sistem Simulasi
+        function hantarRSVP(event) {
+            event.preventDefault();
+            const nama = document.getElementById("nama").value;
+            const kehadiran = document.querySelector('input[name="kehadiran"]:checked').value;
+            const bilangan = kehadiran === 'hadir' ? document.getElementById("bilangan").value : '0';
+
+            const mesejRSVP = kehadiran === 'hadir' 
+                ? `Alhamdulillah, ${nama} mengesahkan kehadiran untuk ${bilangan} orang.`
+                : `Terima kasih atas makluman, ${nama} tidak dapat hadir ke majlis.`;
+
+            // Simulasi penghantaran berjaya
+            showToast(mesejRSVP);
+            
+            // Set semula borang
+            document.getElementById("rsvpForm").reset();
+            bilanganContainer.style.display = 'block';
+        }
+
+        // 7. Notifikasi Toast Mesej Kustom
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.classList.add("show");
+            
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
+
